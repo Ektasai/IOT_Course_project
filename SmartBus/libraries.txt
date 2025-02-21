@@ -1,0 +1,9 @@
+# Wokwi Library List
+# See https://docs.wokwi.com/guides/libraries
+
+TinyGPSPlusPlus
+TinyGPSPlus
+TinyGPSPlus-ESP32
+PubSubClient
+WiFi
+LiquidCrystal I2C
