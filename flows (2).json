@@ -1,0 +1,117 @@
+[
+    {
+        "id": "1cbb526d4d6d5560",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5e9b96fad0d75538",
+        "type": "mqtt in",
+        "z": "1cbb526d4d6d5560",
+        "name": "",
+        "topic": "bus/tracking",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "ef3279bae8c5930f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 280,
+        "wires": [
+            [
+                "83d6fd710eb7b7ca"
+            ]
+        ]
+    },
+    {
+        "id": "83d6fd710eb7b7ca",
+        "type": "function",
+        "z": "1cbb526d4d6d5560",
+        "name": "function  ",
+        "func": "// Node-RED function to process the MQTT distance message and send an email\nif (msg.payload) {\n    var distance = parseFloat(msg.payload.split(\":\")[1].trim().split(\" \")[0]);\n    \n    if (distance <= 1.0) {\n        // Send simple message when the bus is within 1 km\n        msg.payload = \"The bus will arrive in 5 minutes!\";\n        return [msg, null]; // Send to the email node\n    } else {\n        // Send debug info for distances greater than 1 km\n        node.warn(\"Distance: \" + distance + \" km\");\n        return [null, msg]; // Send to the debug node\n    }\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 280,
+        "wires": [
+            [
+                "e86af0252a132a4b",
+                "05b801fefc66a0b5"
+            ]
+        ]
+    },
+    {
+        "id": "e86af0252a132a4b",
+        "type": "e-mail",
+        "z": "1cbb526d4d6d5560",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "ektasai2005@gmail.com ",
+        "dname": "Mail",
+        "x": 710,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "05b801fefc66a0b5",
+        "type": "debug",
+        "z": "1cbb526d4d6d5560",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ef3279bae8c5930f",
+        "type": "mqtt-broker",
+        "name": "Bus  ",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
